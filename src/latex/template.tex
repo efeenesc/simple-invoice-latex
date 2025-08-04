@@ -1,0 +1,113 @@
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{titlesec}
+\usepackage{fontawesome5}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usepackage{fontspec}
+\usepackage{lastpage} % Total page count
+\usepackage[margin=0.5in, top=0.5in, bottom=0.7in, footnotesep=0cm]{geometry} % Page margins
+\usepackage{parskip}
+\usepackage{colortbl}
+\usepackage[symbol*]{footmisc}
+\setfnsymbol{wiley}
+
+\definecolor{offwhite}{HTML}{9C9C9C}
+
+\setmainfont{Helvetica Neue}  % or another system font
+
+\hypersetup{
+    urlcolor=blue
+}
+
+\newcommand{\LARGER}{\fontsize{24}{24}\selectfont}
+
+\begin{document}
+	
+\thispagestyle{empty}
+
+
+% Header, for company, invoice info
+
+\hfill{\includegraphics[height=1.98cm]{logo.png}}
+\vspace{-1.98cm}
+
+\textbf{\LARGER{Invoice}}
+\vspace{20pt}
+
+\renewcommand{\arraystretch}{1.2}
+
+\begin{table}[h]
+\begin{tabular}{@{}l l}
+\textbf{Invoice number} & <<INV-NUMBER>> \\
+\textbf{Date of issue}  & <<DATE-ISSUE>> \\ % always the 23rd of this month
+\textbf{Delivery period}& <<DATE-DELIVERY>> \\ % always the last day of this month
+\textbf{Date due}       & <<DATE-DUE>> % 1 week after the 27th of this month (e.g. Aug 3 if month is July)
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{@{}l l l}
+\textbf{<<ISSUER-NAME>>} && \textbf{Bill to}        \\
+<<ISSUER-ADDRESS-1>>    && <<BILL-TO-NAME>>       \\
+<<ISSUER-ADDRESS-2>>    && <<BILL-TO-ADDRESS-1>>  \\
+<<ISSUER-ADDRESS-3>>    && <<BILL-TO-ADDRESS-2>>  \\
+<<ISSUER-PHONE>>        && <<BILL-TO-LINE-1>>     \\
+<<ISSUER-EMAIL>>        && <<BILL-TO-LINE-2>>
+\end{tabularx}
+\end{table}
+
+\renewcommand{\arraystretch}{1.5}
+
+\normalsize{<<PAYMENT-NOTES>>}
+
+\begin{table}[h]
+\setlength{\tabcolsep}{12pt} % Default is usually 6pt
+\begin{tabularx}{\textwidth}{@{}X r r r r@{}}
+   \textbf{Description} & \textbf{Qty} & \textbf{Unit price} & \textbf{Discount} & \textbf{Amount} \\[0.2em]
+   \hline
+   <<LINE-ITEMS>>
+\end{tabularx}
+\end{table}
+
+\vspace{10pt}
+
+\hfill
+\begin{tabularx}{0.5\textwidth}{l >{\raggedleft\arraybackslash}X}
+    Subtotal                    & <<SUBTOTAL>>              \\
+    \arrayrulecolor{offwhite}\hline
+    Discount                    & <<DISCOUNT-TOTAL>>        \\
+    \hline
+    Tax                         & <<TAX-PERCENT>>           \\
+    \hline
+    Total                       & <<TOTAL>>                 \\
+    \hline
+    \large\textbf{Amount due}   & \large\textbf{<<TOTAL>>}
+\end{tabularx}
+
+\vspace{2em}
+\vfill
+
+\LARGE\textbf{Payment details}\vspace{0.2em}
+
+\normalsize{Payments should be made in \textbf{USD} via SWIFT to the following bank account:}
+
+\begin{tabular}{@{}l l}
+\textbf{Bank name}              & <<BANK-NAME>> \\
+\textbf{Bank address}           & <<BANK-ADDRESS>> \\
+\textbf{IBAN}                   & <<BANK-ACCOUNT-IBAN>> \\ % always the 23rd of this month
+\textbf{Account holder name}    & <<BANK-ACCOUNT-NAME>> \\
+\textbf{Account number}         & <<BANK-ACCOUNT-NUMBER>> \\
+\textbf{SWIFT code}             & <<BANK-SWIFT-CODE>>
+\end{tabular}
+
+\vspace{10pt}
+\end{document}

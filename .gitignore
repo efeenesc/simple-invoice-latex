@@ -1,0 +1,13 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.xdv
+*.pdf
+/output
+/node_modules
+.DS_Store
+months_years.csv
+invoice.json

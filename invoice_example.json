@@ -1,0 +1,45 @@
+{
+    "InvNumber": "INV-{{current-year|to-year-number}}-{{current-month|to-month-number}}",
+    "Issuer": {
+        "Name": "Full name",
+        "Address1": "Address line 1",
+        "Address2": "Address line 2",
+        "Address3": "Address line 3",
+        "Phone": "Phone number",
+        "Email": "Email address"
+    },
+    "Date": {
+        "Issue": "{{current-month|20-day|to-formatted}}",
+        "Delivery": "{{current-month|25-day|to-formatted}}",
+        "Due": "{{next-month|first-workingday|to-formatted}}"
+    },
+    "BillTo": {
+        "Name": "Company name",
+        "Address1": "Company address line 1",
+        "Address2": "Company address line 1",
+        "Line1": "Company misc. line 1",
+        "Line2": "Company misc. line 2"
+    },
+    "PaymentNotes": "Sample invoice. Disregard",
+    "Tax": 0,
+    "LineItems": [
+        {
+            "Description": "{{current-month|to-month-name}} Hours",
+            "Qty": 1,
+            "UnitPrice": 4000.00,
+            "Currency": "USD",
+            "Symbol": "$",
+            "Discount": 0
+        }
+    ],
+    "Bank": {
+        "Name": "Bank name",
+        "ADDRESS": "Bank address",
+        "SWIFTCode": "Bank swift code",
+        "Account": {
+            "IBAN": "Bank account IBAN",
+            "Name": "Bank account holder name",
+            "Number": "Bank account number"
+        }
+    }
+}
