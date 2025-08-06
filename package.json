@@ -6,13 +6,10 @@
     "scripts": {
         "test": "jest"
     },
-    "dependencies": {
-        "date-fns": "^4.1.0"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/jest": "^30.0.0",
         "@types/node": "^24.1.0",
-        "@types/date-fns": "^2.6.3",
         "jest": "^30.0.5",
         "ts-jest": "^29.4.1",
         "tsx": "^4.20.3",

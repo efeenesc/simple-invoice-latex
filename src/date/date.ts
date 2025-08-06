@@ -12,7 +12,7 @@ import {
 	subMonths,
 	subWeeks,
 	subYears,
-} from "date-fns";
+} from "./util";
 
 export const months: Record<string, number> = {
 	January: 0,
@@ -48,14 +48,14 @@ export function parseDateSyntax(str: string, baseDate?: Date) {
 	let d: string | number | undefined | Date = baseDate || new Date();
 	const statements = str.split("|");
 
-	const ops = statements.map((s) => mini(s));
+	const ops = statements.map((s) => mini(s)).filter((s) => s);
+	if (!ops) return d;
 	ops.forEach((o) => {
 		d = o?.(d as any);
 	});
 	return d;
 }
 
-const initializers = ["prev", "current", "next"];
 function mini(
 	str: string
 ): undefined | ((month: Date) => Date | string | number | undefined) {
@@ -143,12 +143,10 @@ function mini(
 		i++;
 	}
 
-	if (initializers.includes(spec as any) && period) {
-		return (mon?: Date) => getInitialDate(mon, spec as any, period);
+	if (spec && period) {
+		return (mon?: Date) => getDateBySpec(mon, spec as any, period);
 	} else if (specDayNum) {
 		return (mon: Date) => getNthDayOfMonth(mon, specDayNum);
-	} else if (spec && period) {
-		return (mon: Date) => getDayOfMonth(mon, spec as any, period);
 	} else if (math && mathNum && period) {
 		return (mon: Date) => performDateCalc(mon, math, mathNum, period);
 	} else if (isConv && convTo) {
@@ -158,9 +156,9 @@ function mini(
 	}
 }
 
-function getInitialDate(
+function getDateBySpec(
 	month: Date | undefined,
-	spec: "prev" | "current" | "next" | "first",
+	spec: "prev" | "current" | "next" | "first" | "last",
 	period: "year" | "month" | "day" | "week" | "workingday"
 ): Date | undefined {
 	if (!month) {
@@ -190,6 +188,28 @@ function getInitialDate(
 			switch (period) {
 				case "month":
 					return new Date(month.getFullYear(), 0);
+				case "day":
+					return startOfMonth(month);
+				case "workingday":
+					let firstBusinessDay = startOfMonth(month);
+					while (isWeekend(firstBusinessDay)) {
+						firstBusinessDay = addDays(firstBusinessDay, 1);
+					}
+					return firstBusinessDay;
+				default:
+					printfatal(month, spec, period);
+			}
+		}
+		case "last": {
+			switch (period) {
+				case "day":
+					return endOfMonth(month);
+				case "workingday":
+					let lastBusinessDay = endOfMonth(month);
+					while (isWeekend(lastBusinessDay)) {
+						lastBusinessDay = subDays(lastBusinessDay, 1);
+					}
+					return lastBusinessDay;
 				default:
 					printfatal(month, spec, period);
 			}
@@ -201,36 +221,6 @@ function getInitialDate(
 
 function getNthDayOfMonth(month: Date, num: number) {
 	return new Date(month.getFullYear(), month.getMonth(), num);
-}
-
-function getDayOfMonth(
-	month: Date,
-	pos: "first" | "last",
-	type: "day" | "workingday" | any
-) {
-	if (pos === "first") {
-		if (type === "day") {
-			return startOfMonth(month);
-		} else {
-			let firstBusinessDay = startOfMonth(month);
-			while (isWeekend(firstBusinessDay)) {
-				firstBusinessDay = addDays(firstBusinessDay, 1);
-			}
-			return firstBusinessDay;
-		}
-	} else if (pos === "last") {
-		if (type === "day") {
-			return endOfMonth(month);
-		} else {
-			let lastBusinessDay = endOfMonth(month);
-			while (isWeekend(lastBusinessDay)) {
-				lastBusinessDay = subDays(lastBusinessDay, 1);
-			}
-			return lastBusinessDay;
-		}
-	} else {
-		printfatal(pos);
-	}
 }
 
 function performDateCalc(
