@@ -1,0 +1,5 @@
+{
+	// Not building anything but still
+	"extends": "./tsconfig",
+	"exclude": ["**/*.test.*", "**/__mocks__/*", "**/__tests__/*"]
+}
