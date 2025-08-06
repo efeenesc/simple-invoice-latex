@@ -7,6 +7,7 @@ import {
 	cleanupLatexFiles,
 } from "./src/builder";
 import type { InvoiceConfig } from "./src/builder/builder.interface";
+import { basename } from "path";
 
 const TEMPLATE_FILE = "./src/latex/template.tex";
 const OUTPUT_DIR = "./output";
@@ -15,9 +16,9 @@ let MONTH_NUM: number | undefined;
 let YEAR_NUM: number | undefined;
 
 function showHelp() {
-	const executable = process.argv[0];
+	const executable = basename(process.argv[1]);
 	console.log(
-		`LaTeX Template Generator
+		`Simple LaTeX Invoice Generator
 
 USAGE:
     ${executable} [OPTIONS]
