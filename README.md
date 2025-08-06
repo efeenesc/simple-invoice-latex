@@ -1,14 +1,26 @@
-# Simple LaTeX invoice generator
+# <sub>simple</sub> L<sup>A</sup>T<sub>E</sub>X invoice generator
 
 A TypeScript and LaTeX based invoice generator. That's about it.
 
+Its best feature is its ability to create and format dates from an invoice template. This is described under the JSON template syntax section below.
+
+It calculates discounted, total, after-tax amounts of line items. Line items are passed through the JSON config file.
+
+You can also declare additional fields in the LaTeX template, and pass them in through your config file.
+
 ## Installation
 
-Run `yarn install` to install the only npm dependency, 'date-fns'. Make sure you also have a LaTeX distribution installed. The project attempts to use either XeLaTeX or PDFLaTeX. Replace `logo.png` with your own logo.
+Run `yarn install` to install dev dependencies. There are no actual dependencies.
+
+Make sure you also have a LaTeX distribution installed. The project attempts to use either XeLaTeX or PDFLaTeX.
+
+Replace `logo.png` in project root and in src/latex/logo.png with your own logo.
 
 ## Usage
 
-Configure your `invoice.json` (or alternatively-named) config file. You can refer to the `invoice.example.json` file, or read the **Configuration** section below. Generate an invoice for the current month and year:
+Configure your `invoice.json` (or alternatively-named) config file. You can refer to the `invoice.example.json` file, or read the **Configuration** section below.
+
+Generate an invoice for the current month and year:
 
 ```bash
 tsx index.ts
@@ -96,20 +108,20 @@ The date syntax uses a **pipe-based chain** where each operation is separated by
 
 ```json
 // Basic usage
-"{{current-month|20-day|to-formatted}}"           // "January 20, 2025"
+"{{current-month|20-day|to-formatted}}"           // "August 20, 2025"
 "{{current-year|to-year-number}}"                 // "2025"
-"{{current-month|to-month-name}} Hours"           // "January Hours"
+"{{current-month|to-month-name}} Hours"           // "August Hours"
 
 // Working day calculations
-"{{next-month|first-workingday|to-formatted}}"    // "February 3, 2025" (skips weekend)
-"{{current-month|last-workingday|to-formatted}}"  // "January 31, 2025" (or Friday before)
+"{{next-month|first-workingday|to-formatted}}"    // "September 1, 2025"
+"{{current-month|last-workingday|to-formatted}}"  // "August 29, 2025"
 
 // Date math chains
-"{{current-month|25-day|add-1-week|to-formatted}}" // "February 1, 2025" (Jan 25 + 7 days)
-"{{next-month|first-day|sub-3-days|to-formatted}}" // "January 29, 2025" (Feb 1 - 3 days)
+"{{current-month|25-day|add-1-week|to-formatted}}" // "September 1, 2025" (Jan 25 + 7 days)
+"{{next-month|first-day|sub-3-days|to-formatted}}" // "August 29, 2025" (Feb 1 - 3 days)
 
 // Invoice numbering
-"INV-{{current-year|to-year-number}}-{{current-month|to-month-number}}" // "INV-2025-1"
+"INV-{{current-year|to-year-number}}-{{current-month|to-month-number}}" // "INV-2025-8"
 
 // Quarterly due dates
 "{{current-month|add-3-months|15-day|to-formatted}}" // 3 months + 15 days from current
