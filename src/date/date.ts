@@ -48,7 +48,7 @@ export function parseDateSyntax(str: string, baseDate?: Date) {
 	let d: string | number | undefined | Date = baseDate || new Date();
 	const statements = str.split("|");
 
-	const ops = statements.map((s) => mini(s)).filter((s) => s);
+	const ops = statements.map((s) => parseDateFunction(s)).filter((s) => s);
 	if (!ops) return d;
 	ops.forEach((o) => {
 		d = o?.(d as any);
@@ -56,7 +56,7 @@ export function parseDateSyntax(str: string, baseDate?: Date) {
 	return d;
 }
 
-function mini(
+function parseDateFunction(
 	str: string
 ): undefined | ((month: Date) => Date | string | number | undefined) {
 	if (!str) return;
